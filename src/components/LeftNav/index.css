@@ -1,0 +1,12 @@
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  background-color: #fff;
+}
+.logo h1 {
+  font-size: 18px;
+  color: #aaa;
+}
+/*# sourceMappingURL=index.css.map */
