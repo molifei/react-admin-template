@@ -156,7 +156,24 @@ module.exports = function (webpackEnv) {
           },
         }
       );
+
+      let lessLoader = {
+        loader: require.resolve(preProcessor),
+        options: {
+          sourceMap: isEnvProduction && shouldUseSourceMap,
+        },
+      }
+      if (preProcessor === "less-loader") {
+        console.log(1)
+        lessLoader.options.modifyVars = {
+          // #ff9000 0,#ff5000
+          'primary-color' : '#08979C',
+        }
+        lessLoader.options.javascriptEnabled = true
+      }
+      loaders.push(lessLoader);
     }
+
     return loaders;
   };
 
@@ -336,6 +353,8 @@ module.exports = function (webpackEnv) {
           'scheduler/tracing': 'scheduler/tracing-profiling',
         }),
         ...(modules.webpackAliases || {}),
+        '@': path.resolve(__dirname, '../src'),
+        '#': path.resolve(__dirname, '../public'),
       },
       plugins: [
         // Adds support for installing with Plug'n'Play, leading to faster installs and adding

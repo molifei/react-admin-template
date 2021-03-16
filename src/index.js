@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import "antd/dist/antd.css"
+import 'antd/dist/antd.less'
 import Admin from './Admin';
 import reportWebVitals from './reportWebVitals';
 
