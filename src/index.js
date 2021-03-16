@@ -2,12 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import 'antd/dist/antd.less'
-import Admin from './Admin';
+// import Admin from './Admin';
+import Admin from './pages/router_demo/route1/Home';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Admin />
+    <Admin/>
   </React.StrictMode>,
   document.getElementById('root')
 );

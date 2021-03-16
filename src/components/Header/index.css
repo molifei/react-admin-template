@@ -1,0 +1,40 @@
+header .header-top {
+  padding-right: 40px;
+  height: 60px;
+  font-size: 16px;
+}
+header .header-top .ant-col {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+header .header-top a {
+  margin-left: 40px;
+}
+header .bread {
+  height: 40px;
+  line-height: 40px;
+  border-top: 2px solid #08979C;
+  padding: 0 40px;
+}
+header .bread .bread-title {
+  position: relative;
+  font-size: 18px;
+}
+header .bread .bread-title:after {
+  content: "";
+  position: absolute;
+  top: 38px;
+  left: 5px;
+  border-top: 10px solid #fff;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+}
+header .bread .weather {
+  text-align: right;
+  font-size: 18px;
+}
+header .bread .weather span:nth-of-type(1) {
+  margin-right: 20px;
+}
+/*# sourceMappingURL=index.css.map */

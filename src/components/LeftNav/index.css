@@ -3,7 +3,11 @@
   align-items: center;
   justify-content: center;
   height: 80px;
-  background-color: #fff;
+  background-color: #0b1c2c;
+}
+.logo img {
+  width: 40px;
+  margin-right: 20px;
 }
 .logo h1 {
   font-size: 18px;

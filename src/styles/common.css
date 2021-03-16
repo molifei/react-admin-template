@@ -1,8 +1,8 @@
 .main-wrap .left-nav {
   height: 100vh;
-  background-color: #fff;
+  background-color: #0b1c2c;
 }
-.main-wrap .left-nav .content-wrap .content {
-  height: 100vh;
+.main-wrap .content-wrap .content {
+  background-color: #f1f3f5;
 }
 /*# sourceMappingURL=common.css.map */

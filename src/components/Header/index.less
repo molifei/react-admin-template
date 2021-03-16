@@ -3,12 +3,14 @@ header {
         padding-right: 40px;
         height: 60px;
         font-size: 16px;
-        .ant-col{
+
+        .ant-col {
             display: flex;
             align-items: center;
             justify-content: flex-end;
         }
-        a{
+
+        a {
             margin-left: 40px;
         }
     }
@@ -18,11 +20,29 @@ header {
         line-height: 40px;
         border-top: 2px solid #08979C;
         padding: 0 40px;
-        .weather{
+
+        .bread-title {
+            position: relative;
+            font-size: 18px;
+
+            &:after {
+                content: "";
+                position: absolute;
+                top: 38px;
+                left: 5px;
+                border-top: 10px solid #fff;
+                border-left: 12px solid transparent;
+                border-right: 12px solid transparent;
+
+            }
+        }
+
+        .weather {
             text-align: right;
             font-size: 18px;
-            span{
-                &:nth-of-type(1){
+
+            span {
+                &:nth-of-type(1) {
                     margin-right: 20px;
                 }
             }

@@ -4,8 +4,8 @@ import './index.less'
 class Main extends React.Component {
   render() {
     return (
-      <main className="main-wrap">
-        首页
+      <main className="home-wrap">
+        这里是首页
       </main>
     );
   }
