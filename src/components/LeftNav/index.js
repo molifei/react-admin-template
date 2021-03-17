@@ -1,6 +1,7 @@
 import React from 'react';
 import './index.less'
 import { Menu } from 'antd';
+import { NavLink } from 'react-router-dom'
 
 // 引入菜单配置
 import MenuList from '@/config/menu'
@@ -35,7 +36,7 @@ class LeftNav extends React.Component {
           </SubMenu>
         ) :
         res = (
-          <Menu.Item key={item.key}>{item.title}</Menu.Item>
+          <Menu.Item key={item.key}><NavLink to={item.key}>{item.title}</NavLink></Menu.Item>
         )
       return res
     })

@@ -4,7 +4,6 @@ import { Row, Col } from 'antd'
 import LeftNav from './components/LeftNav';
 import Header from './components/Header';
 import Footer from './components/Footer'
-import Main from '@/pages/main';
 
 export default class Admin extends React.Component {
 
@@ -17,7 +16,11 @@ export default class Admin extends React.Component {
         <Col span={20} className="content-wrap">
           <Header />
           <Row className="content">
-            <Main/>
+
+            <div>
+              {this.props.children}
+            </div>
+
           </Row>
           <Footer />
         </Col>

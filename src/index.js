@@ -1,14 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import 'antd/dist/antd.less'
 // import Admin from './Admin';
-import Admin from './pages/router_demo/route1/Home';
+import Router from '@/router/router'
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Admin/>
+    <Router />
   </React.StrictMode>,
   document.getElementById('root')
 );
