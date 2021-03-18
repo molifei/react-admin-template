@@ -2,7 +2,19 @@
   height: 100vh;
   background-color: #0b1c2c;
 }
+.main-wrap .content-wrap {
+  height: 100vh;
+  overflow: auto;
+}
 .main-wrap .content-wrap .content {
+  padding: 20px;
   background-color: #f1f3f5;
+}
+.animated-router-container {
+  width: 100%;
+}
+.ant-space,
+.ant-space-item {
+  width: 100%;
 }
 /*# sourceMappingURL=common.css.map */
