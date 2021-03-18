@@ -67,7 +67,7 @@ module.exports = {
     'block-scoped-var': 2, // 块语句中使用var
     'no-dupe-class-members': 2,
     'no-undef': 0, // 未声明的变量
-    // 'no-var': 1, // 禁用var，用let和const代替
+    'no-var': 0, // 禁用var，用let和const代替
     'object-shorthand': [0, 'always'], // 强制对象字面量缩写语法
     'no-unused-expressions': 0, // 禁止未使用过的表达式
     'array-bracket-spacing': [2, 'never'], // 是否允许非空数组里面有多余的空格

@@ -4,11 +4,9 @@ import 'antd/dist/antd.less'
 // import Admin from './Admin';
 import Router from '@/router/router'
 import reportWebVitals from './reportWebVitals';
-
+// <React.StrictMode>
 ReactDOM.render(
-  <React.StrictMode>
-    <Router />
-  </React.StrictMode>,
+  <Router />,
   document.getElementById('root')
 );
 

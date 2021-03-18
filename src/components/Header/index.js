@@ -49,7 +49,7 @@ export default class Header extends React.Component {
 
   // 获取天气
   getWeather = () => {
-    console.log('天气')
+    // console.log('天气')
   }
 
   render() {
