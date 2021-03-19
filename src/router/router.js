@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {HashRouter, Route, Switch} from 'react-router-dom'
+import React, { Component } from 'react';
+import { HashRouter, Route, Switch } from 'react-router-dom'
 import App from '../App'
 
 import AnimatedRouter from 'react-animated-router'; // 我们的AnimatedRouter组件
@@ -20,6 +20,7 @@ import UiGallery from '@/pages/ui/gallery'
 import UiCarousel from '@/pages/ui/carousel'
 
 import FormLogin from '@/pages/form/login'
+import FormRegister from '@/pages/form/register'
 
 import NotFound from '@/pages/notFound'
 
@@ -30,24 +31,25 @@ class Router extends Component {
         <HashRouter>
           <App>
             <Switch>
-              <Route path="/login" component={Login}/>
+              <Route path="/login" component={Login} />
               <Route path="/" render={() =>
                 <Admin>
                   <AnimatedRouter>
-                    <Route path="/home" component={Main}/>
-                    <Route path="/ui/buttons" component={UiButtons}/>
-                    <Route path="/ui/modals" component={UiModals}/>
-                    <Route path="/ui/loadings" component={UiLoadings}/>
-                    <Route path="/ui/notification" component={UiNotification}/>
-                    <Route path="/ui/messages" component={UiMessages}/>
-                    <Route path="/ui/tabs" component={UiTabs}/>
-                    <Route path="/ui/gallery" component={UiGallery}/>
-                    <Route path="/ui/carousel" component={UiCarousel}/>
-                    <Route path="/form/login" component={FormLogin}/>
+                    <Route path="/home" component={Main} />
+                    <Route path="/ui/buttons" component={UiButtons} />
+                    <Route path="/ui/modals" component={UiModals} />
+                    <Route path="/ui/loadings" component={UiLoadings} />
+                    <Route path="/ui/notification" component={UiNotification} />
+                    <Route path="/ui/messages" component={UiMessages} />
+                    <Route path="/ui/tabs" component={UiTabs} />
+                    <Route path="/ui/gallery" component={UiGallery} />
+                    <Route path="/ui/carousel" component={UiCarousel} />
+                    <Route path="/form/login" component={FormLogin} />
+                    <Route path="/form/register" component={FormRegister} />
                   </AnimatedRouter>
                 </Admin>
-              }/>
-              <Route component={NotFound}/>
+              } />
+              <Route component={NotFound} />
             </Switch>
           </App>
         </HashRouter>

@@ -10,10 +10,10 @@ export default class Admin extends React.Component {
   render() {
     return (
       <Row className="main-wrap">
-        <Col span={4} className="left-nav">
+        <Col flex="0 0 232px" className="left-nav">
           <LeftNav />
         </Col>
-        <Col span={20} className="content-wrap">
+        <Col flex="1" className="content-wrap">
           <Header />
           <Row className="content">
             {this.props.children}
