@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Space, Card, Form, Input, Button, Checkbox } from 'antd'
+import React, {Component} from 'react';
+import {Space, Card, Form, Input, Button, Checkbox} from 'antd'
 
 class Login extends Component {
 
@@ -39,21 +39,23 @@ class Login extends Component {
             >
               <Form.Item
                 name="username"
-                rules={[{ required: true, message: '请输入名称' }]}
+                rules={[{required: true, message: '请输入名称'}]}
               >
-                <Input placeholder="请输入名称" />
+                <Input placeholder="请输入名称"/>
               </Form.Item>
               <Form.Item
                 name="password"
-                rules={[{ required: true, message: '请输入密码' }]}
+                rules={[{required: true, message: '请输入密码'}]}
               >
-                <Input placeholder="请输入密码" />
+                <Input placeholder="请输入密码"/>
               </Form.Item>
 
-              <Form.Item wrapperCol={{ offset: 3, span: 16 }}>
+              <Form.Item>
                 <Button type="primary" htmlType="submit">
                   提交
                 </Button>
+              </Form.Item>
+              <Form.Item>
                 <Button type="button" onClick={this.resetForm}>
                   重置
                 </Button>
@@ -63,38 +65,38 @@ class Login extends Component {
 
           <Card title="水平表单">
             <Form
-              labelCol={{ span: 2 }}
-              wrapperCol={{ span: 6 }}
+              labelCol={{span: 2}}
+              wrapperCol={{span: 6}}
               name="basic"
-              initialValues={{ remember: true, username: '小明' }}
+              initialValues={{remember: true, username: '小明'}}
             >
               <Form.Item
                 label="Username"
                 name="username"
-                rules={[{ required: true, message: 'Please input your username!' }]}
+                rules={[{required: true, message: 'Please input your username!'}]}
               >
-                <Input />
+                <Input/>
               </Form.Item>
 
               <Form.Item
                 label="Password"
                 name="password"
-                rules={[{ required: true, message: 'Please input your password!' }]}
+                rules={[{required: true, message: 'Please input your password!'}]}
               >
-                <Input.Password />
+                <Input.Password/>
               </Form.Item>
 
-              <Form.Item wrapperCol={{ span: 8 }}>
-                <Form.Item style={{ display: 'inline-block', width: 'calc(50%)' }} name="remember" valuePropName="checked">
+              <Form.Item wrapperCol={{span: 8}}>
+                <Form.Item style={{display: 'inline-block', width: 'calc(50%)'}} name="remember" valuePropName="checked">
                   <Checkbox>记住密码</Checkbox>
                 </Form.Item>
 
-                <Form.Item style={{ display: 'inline-block', width: 'calc(50% )' }}>
-                  <a href="#!" style={{ float: 'right' }} type="link">忘记密码</a>
+                <Form.Item style={{display: 'inline-block', width: 'calc(50% )'}}>
+                  <a href="#!" style={{float: 'right'}} type="link">忘记密码</a>
                 </Form.Item>
               </Form.Item>
 
-              <Form.Item wrapperCol={{ span: 8 }}>
+              <Form.Item wrapperCol={{span: 8}}>
                 <Button type="primary" htmlType="submit" block>
                   提交
                 </Button>

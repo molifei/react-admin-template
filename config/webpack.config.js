@@ -166,7 +166,8 @@ module.exports = function(webpackEnv) {
       if (preProcessor === 'less-loader') {
         lessLoader.options.modifyVars = {
           // #ff9000 0,#ff5000
-          'primary-color': '#08979C'
+          // 'primary-color': '#08979C'
+          // 'primary-color': '#1890ff'
         }
         lessLoader.options.javascriptEnabled = true
       }

@@ -8,9 +8,6 @@
 img {
   width: 200px;
 }
-.ant-row {
-  margin-bottom: 16px;
-}
 .view-modal .ant-modal-body {
   display: flex;
   justify-content: center;
