@@ -22,7 +22,7 @@ class Login extends Component {
   }
 
   valueChangeHandle = (newValue, allValue) => {
-    console.log(newValue, allValue);
+    console.log('改变:', newValue, allValue);
   }
 
   render() {
@@ -47,7 +47,7 @@ class Login extends Component {
                 name="password"
                 rules={[{required: true, message: '请输入密码'}]}
               >
-                <Input placeholder="请输入密码"/>
+                <Input.Password placeholder="请输入密码"/>
               </Form.Item>
 
               <Form.Item>

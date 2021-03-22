@@ -22,6 +22,8 @@ import UiCarousel from '@/pages/ui/carousel'
 import FormLogin from '@/pages/form/login'
 import FormRegister from '@/pages/form/register'
 
+import TableBasic from '@/pages/table/basic'
+
 import NotFound from '@/pages/notFound'
 
 class Router extends Component {
@@ -46,6 +48,7 @@ class Router extends Component {
                     <Route path="/ui/carousel" component={UiCarousel} />
                     <Route path="/form/login" component={FormLogin} />
                     <Route path="/form/register" component={FormRegister} />
+                    <Route path="/table/basic" component={TableBasic} />
                   </AnimatedRouter>
                 </Admin>
               } />
