@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Card, Form, Input, InputNumber, Checkbox, Radio, Select, Switch, DatePicker, TimePicker, Upload, message, Button} from 'antd'
-import {LoadingOutlined, PlusOutlined} from '@ant-design/icons';
 
 import tools from '@/utils/utils'
 
