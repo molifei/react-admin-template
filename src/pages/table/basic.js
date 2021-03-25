@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Space, Card, Table } from 'antd'
+import { Space, Card, Table, Modal } from 'antd'
 
 import ajax from '@/api'
 
@@ -55,7 +55,9 @@ class Basic extends Component {
         key: 'time'
       }
     ],
-    dataSource2: []
+    dataSource2: [],
+    selectedRowKeys: ['5048891'],
+    selectedList: []
   }
 
   async componentDidMount() {
@@ -82,15 +84,48 @@ class Basic extends Component {
   }
 
   rowSelection = {
-    type: 'checkbox'
+    type: 'checkbox',
+    selectedRowKeys: this.state.selectedRowKeys,
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(selectedRowKeys, selectedRows)
+      this.setState({
+        selectedRowKeys,
+        selectedList: selectedRows
+      })
+    }
   }
 
-  onRow = record => {
+  onRow = (record, index) => {
     return {
-      onClick: event => {
-        console.log(event)
+      onClick: (event) => {
+        // console.log([record.id])
+        // // Modal.info({
+        // //   title: record.id,
+        // //   content: JSON.stringify(record)
+        // // })
+        // this.setState({
+        //   selectedRowKeys: [record.id],
+        //   row: record
+        // })
+
+        this.selectRow(record)
+
       }
     }
+  }
+
+  selectRow = (record) => {
+    const { selectedRowKeys } = this.state
+
+    // 判断有无id
+    if (selectedRowKeys.indexOf(record.id) >= 0) {
+      // 有则替换
+      selectedRowKeys.splice(selectedRowKeys.indexOf(record.id), 1);
+    } else {
+      // 无则添加
+      selectedRowKeys.push(record.id);
+    }
+    this.setState({ selectedRowKeys });
   }
 
   render() {
