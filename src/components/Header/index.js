@@ -25,15 +25,15 @@ export default class Header extends React.Component {
     }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.getWeather()
   }
 
-  componentDidMount() {
+  UNSAFE_componentDidMount() {
     this.getTime()
   }
 
-  componentWillUnmount() {
+  UNSAFE_componentWillUnmount() {
     clearInterval(timer)
   }
 

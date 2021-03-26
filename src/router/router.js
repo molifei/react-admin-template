@@ -23,6 +23,9 @@ import FormLogin from '@/pages/form/login'
 import FormRegister from '@/pages/form/register'
 
 import TableBasic from '@/pages/table/basic'
+import TableHigh from '@/pages/table/high'
+
+import City from '@/pages/city'
 
 import NotFound from '@/pages/notFound'
 
@@ -49,6 +52,8 @@ class Router extends Component {
                     <Route path="/form/login" component={FormLogin} />
                     <Route path="/form/register" component={FormRegister} />
                     <Route path="/table/basic" component={TableBasic} />
+                    <Route path="/table/high" component={TableHigh} />
+                    <Route path="/city" component={City} />
                   </AnimatedRouter>
                 </Admin>
               } />

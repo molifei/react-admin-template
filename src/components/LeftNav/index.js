@@ -17,7 +17,7 @@ class LeftNav extends React.Component {
     }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const menu = this.renderMenu(MenuList)
     this.setState({
       menu
