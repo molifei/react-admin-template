@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Space, Card, Button, Form, Input, Select, Table } from 'antd';
+import { Space, Card, Button, Form, Select, Table, Modal } from 'antd';
 import ajax from '@/api'
-import tools from '@/utils/utils'
+// import tools from '@/utils/utils'
+import './index.less'
 
 const { Option } = Select
 
@@ -11,8 +12,8 @@ class City extends Component {
     columns: [
       {
         title: '序号',
-        dataIndex: 'index',
-        key: 'index'
+        render: (text, record, index) => `${index + 1}`,
+        key: 'id'
       },
       {
         title: '城市ID',
@@ -22,12 +23,14 @@ class City extends Component {
       {
         title: '用车模式',
         dataIndex: 'mode',
-        key: 'id'
+        key: 'id',
+        render: (text) => text === 1 ? '指定停车点' : '禁停区模式'
       },
       {
-        title: '用车模式',
+        title: '运营模式',
         dataIndex: 'operation',
-        key: 'id'
+        key: 'id',
+        render: (text) => text === 1 ? '自营' : '加盟'
       },
       {
         title: '授权加盟商',
@@ -55,78 +58,150 @@ class City extends Component {
         key: 'id'
       }
     ],
-    dataSource: []
+    dataSource: [],
+    formData: {},
+    tableLoading: false,
+    cityVisible: false
   }
 
-  form = React.createRef()
+  componentDidMount() {
+    this.getTableData()
+  }
 
   getTable = (val) => {
     console.log(val)
+    this.setState({
+      formData: val
+    })
+    this.getTableData()
   }
 
-  resetForm = () => {
-    this.form.current.resetFields()
+  async getTableData() {
+    this.setState({ tableLoading: true })
+    const res = await ajax({ url: '/city/list' })
+    // console.log(res)
+    if (res.data.status) {
+      this.setState({
+        dataSource: res.data.data,
+        tableLoading: false
+      })
+    }
   }
 
+  openCity = () => {
+    console.log('开通')
+    this.setState({ cityVisible: true })
+  }
+
+  openCityHandle = () => {
+    console.log(this.state.formData)
+  }
 
   render() {
-
-
     return (
       <>
         <Space direction="vertical">
           <Card>
-            <Form
-              ref={this.form}
-              layout="inline"
-              onFinish={this.getTable}
-              initialValues={{
-                city: '',
-                mode: ''
-              }}
+            <AddForm ref={this.form} name="search" getTable={this.getTable} />
+          </Card>
+          <Card>
+            <Button type="primary" onClick={this.openCity}>开通</Button>
+
+            <Modal
+              centered
+              title="开通"
+              visible={this.state.cityVisible}
+              onCancel={() => this.setState({ cityVisible: false })}
+              onOk={this.openCityHandle}
+              okText="确认"
+              cancelText="取消"
             >
-              <Form.Item name="city" label="城市">
-                <Select placeholder="请选择城市" style={{ width: 140 }}>
-                  <Option value="">全部</Option>
-                  <Option value="2">1号城市</Option>
-                  <Option value="3">2号城市</Option>
-                </Select>
-              </Form.Item>
-              <Form.Item name="mode" label="停车模式">
-                <Select placeholder="请选择停车模式" style={{ width: 140 }}>
-                  <Option value="">全部</Option>
-                  <Option value="2">指定停车点</Option>
-                  <Option value="3">禁停区模式</Option>
-                </Select>
-              </Form.Item>
-              <Form.Item name="Operation" label="营运模式">
-                <Select placeholder="请选择营运模式" style={{ width: 140 }}>
-                  <Option value="1">自营</Option>
-                  <Option value="2">加盟</Option>
-                </Select>
-              </Form.Item>
-              <Form.Item name="status" label="加盟商授权状态">
-                <Select placeholder="请选择加盟商授权状态" style={{ width: 140 }}>
-                  <Option value="1">已授权</Option>
-                  <Option value="2">未授权</Option>
-                </Select>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">SEARCH</Button>
-              </Form.Item>
-              <Form.Item>
-                <Button onClick={this.resetForm}>RESET</Button>
-              </Form.Item>
-            </Form>
+
+            </Modal>
+
           </Card>
           <Card>
             <Table
+              scroll={{ y: 500 }}
+              loading={this.state.tableLoading}
               columns={this.state.columns}
-              dataSource={this.state.dataSource} />
+              dataSource={this.state.dataSource}
+              rowKey={r => r.id}
+            />
           </Card>
         </Space>
       </>
     );
+  }
+}
+
+// eslint-disable-next-line react/no-multi-comp
+class AddForm extends Component {
+  form = React.createRef()
+
+  getFormData = (val) => {
+    this.props.getTable(val)
+  }
+
+  resetForm = () => {
+    this.form.current.resetFields()
+    this.getFormData({})
+  }
+
+  render() {
+    return (
+      <Form
+        ref={this.form}
+        layout="inline"
+        onFinish={this.getFormData}
+        initialValues={{
+          city: '',
+          mode: '',
+          operation: '',
+          status: ''
+        }}
+      >
+        <Form.Item name="city" label="城市">
+          <Select placeholder="请选择城市" style={{ width: 140, marginBottom: 8 }}>
+            <Option value="">全部</Option>
+            <Option value="2">1号城市</Option>
+            <Option value="3">2号城市</Option>
+          </Select>
+        </Form.Item>
+        <Form.Item name="mode" label="用车模式">
+          <Select placeholder="请选择用车模式" style={{ width: 140, marginBottom: 8 }}>
+            <Option value="">全部</Option>
+            <Option value="2">指定停车点</Option>
+            <Option value="3">禁停区模式</Option>
+          </Select>
+        </Form.Item>
+        <Form.Item name="operation" label="营运模式">
+          <Select placeholder="请选择营运模式" style={{ width: 140, marginBottom: 8 }}>
+            <Option value="">全部</Option>
+            <Option value="1">自营</Option>
+            <Option value="2">加盟</Option>
+          </Select>
+        </Form.Item>
+        <Form.Item name="status" label="加盟商授权状态">
+          <Select placeholder="请选择加盟商授权状态" style={{ width: 140, marginBottom: 8 }}>
+            <Option value="">全部</Option>
+            <Option value="1">已授权</Option>
+            <Option value="2">未授权</Option>
+          </Select>
+        </Form.Item>
+        {
+          this.props.name === 'search' && <Form.Item>
+            <Button type="primary" htmlType="submit">SEARCH</Button>
+          </Form.Item>
+        }
+
+        {
+          this.props.name === 'search' && <Form.Item>
+            <Button onClick={this.resetForm}>RESET</Button>
+          </Form.Item>
+        }
+      </Form>
+    )
   }
 }
 
