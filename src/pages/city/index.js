@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Space, Card, Button, Form, Select, Table, Modal } from 'antd';
 import ajax from '@/api'
-// import tools from '@/utils/utils'
 import './index.less'
 
 const { Option } = Select
@@ -68,6 +67,8 @@ class City extends Component {
     this.getTableData()
   }
 
+  cityInfo = React.forwardRef()
+
   getTable = (val) => {
     console.log(val)
     this.setState({
@@ -94,7 +95,8 @@ class City extends Component {
   }
 
   openCityHandle = () => {
-    console.log(this.state.formData)
+    let info = this.cityInfo
+    console.log(info)
   }
 
   render() {
@@ -115,8 +117,9 @@ class City extends Component {
               onOk={this.openCityHandle}
               okText="确认"
               cancelText="取消"
+              destroyOnClose
             >
-
+              <CityForm ref={this.cityInfo} />
             </Modal>
 
           </Card>
@@ -204,5 +207,96 @@ class AddForm extends Component {
     )
   }
 }
+
+// eslint-disable-next-line react/no-multi-comp
+const CityForm = (props) => {
+  const [cities, setCities] = React.useState([{ value: '', name: '全部' }])
+
+  const formLayout = {
+    labelCol: {
+      span: 4
+    },
+    wrapperCol: {
+      span: 20
+    }
+  }
+
+  const getCityList = async() => {
+    console.log(props)
+    const res = await ajax({ url: '/getCity' })
+
+    console.log(res)
+    if (res.data.status) {
+      setCities([
+        { value: '', name: '全部' },
+        ...res.data.data
+      ])
+    }
+
+  }
+
+  return (
+    <Form
+      initialValues={{
+        city: ''
+      }}
+      {...formLayout}
+    >
+      <Form.Item
+        name="city"
+        label="选择城市"
+        rules={[
+          {
+            required: true
+          }
+        ]}
+      >
+        <Select
+          onFocus={getCityList}
+          showSearch
+          optionFilterProp="children"
+          filterOption={(input, option) =>
+            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+          }
+        >
+          {
+            cities.map((item, index) => {
+              return (
+                <Option
+                  key={index}
+                  value={item.value}>
+                  {item.name}
+                </Option>
+              )
+            })
+          }
+        </Select>
+      </Form.Item>
+      <Form.Item
+        name="operation"
+        label="营运模式"
+        rules={[
+          {
+            required: true
+          }
+        ]}
+      >
+        <Select placeholder="请选择营运模式">
+          <Option value={1}>自营</Option>
+          <Option value={2}>加盟</Option>
+        </Select>
+      </Form.Item>
+      <Form.Item name="mode" label="用车模式">
+        <Select placeholder="请选择用车模式">
+          <Option value={1}>指定停车点</Option>
+          <Option value={2}>禁停区</Option>
+        </Select>
+      </Form.Item>
+    </Form>
+  );
+}
+
+// eslint-disable-next-line react/no-multi-comp
+
 
 export default City;
