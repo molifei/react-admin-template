@@ -151,6 +151,7 @@ class City extends Component {
           </Card>
           <Card>
             <Table
+              bordered
               scroll={{ y: 500 }}
               loading={this.state.tableLoading}
               columns={this.state.columns}

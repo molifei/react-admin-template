@@ -12,6 +12,7 @@ const ajax = (options) => {
       params: options.params || ''
     })
       .then(res => {
+        console.log(res)
         if (res.status === 200) {
           if (res.data.code === '0') {
             resolve(res)

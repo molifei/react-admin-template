@@ -26,6 +26,7 @@ import TableBasic from '@/pages/table/basic'
 import TableHigh from '@/pages/table/high'
 
 import City from '@/pages/city'
+import Order from '@/pages/order'
 
 import NotFound from '@/pages/notFound'
 
@@ -54,6 +55,7 @@ class Router extends Component {
                     <Route path="/table/basic" component={TableBasic} />
                     <Route path="/table/high" component={TableHigh} />
                     <Route path="/city" component={City} />
+                    <Route path="/order" component={Order} />
                   </AnimatedRouter>
                 </Admin>
               } />
