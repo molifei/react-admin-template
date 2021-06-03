@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Space, Card, Button, Form, Select, Table, Modal } from 'antd';
+import { Space, Card, Button, Form, Select, Table, Modal, message } from 'antd';
 import ajax from '@/api'
 import './index.less'
 
@@ -67,7 +67,7 @@ class City extends Component {
     this.getTableData()
   }
 
-  cityInfo = React.forwardRef()
+  cityInfo = React.createRef()
 
   getTable = (val) => {
     console.log(val)
@@ -95,8 +95,34 @@ class City extends Component {
   }
 
   openCityHandle = () => {
-    let info = this.cityInfo
-    console.log(info)
+    let form = this.cityInfo.current.formRef.current
+
+    form.validateFields()
+      .then(async(params) => {
+        console.log('成功：', params)
+        const result = await ajax({
+          url: '/open/city',
+          method: 'post',
+          params
+        })
+        console.log(result)
+        if (result.status) {
+          message.success('开通成功')
+          this.getTable()
+          form.resetFields()
+          this.setState({ cityVisible: false })
+        } else {
+          message.error('开通失败，请重试')
+        }
+      })
+      .catch(e => {
+        console.log(e)
+      })
+  }
+
+  closeOpenCity = () => {
+    this.setState({ cityVisible: false })
+    this.cityInfo.current.formRef.current.resetFields()
   }
 
   render() {
@@ -113,7 +139,7 @@ class City extends Component {
               centered
               title="开通"
               visible={this.state.cityVisible}
-              onCancel={() => this.setState({ cityVisible: false })}
+              onCancel={this.closeOpenCity}
               onOk={this.openCityHandle}
               okText="确认"
               cancelText="取消"
@@ -209,91 +235,106 @@ class AddForm extends Component {
 }
 
 // eslint-disable-next-line react/no-multi-comp
-const CityForm = (props) => {
-  const [cities, setCities] = React.useState([{ value: '', name: '全部' }])
-
-  const formLayout = {
-    labelCol: {
-      span: 4
-    },
-    wrapperCol: {
-      span: 20
+class CityForm extends Component {
+  state = {
+    cities: [{ value: '', name: '全部' }],
+    formLayout: {
+      labelCol: {
+        span: 4
+      },
+      wrapperCol: {
+        span: 20
+      }
     }
   }
 
-  const getCityList = async() => {
-    console.log(props)
+  formRef = React.createRef()
+
+  getCityList = async() => {
     const res = await ajax({ url: '/getCity' })
 
     console.log(res)
     if (res.data.status) {
-      setCities([
-        { value: '', name: '全部' },
-        ...res.data.data
-      ])
+      this.setState({
+        cities: [
+          { value: '', name: '全部' },
+          ...res.data.data
+        ]
+      })
     }
 
   }
 
-  return (
-    <Form
-      initialValues={{
-        city: ''
-      }}
-      {...formLayout}
-    >
-      <Form.Item
-        name="city"
-        label="选择城市"
-        rules={[
-          {
-            required: true
-          }
-        ]}
+  render() {
+    let { cities } = this.state
+    return (
+      <Form
+        ref={this.formRef}
+        initialValues={{
+          city: ''
+        }}
+        {...this.state.formLayout}
       >
-        <Select
-          onFocus={getCityList}
-          showSearch
-          optionFilterProp="children"
-          filterOption={(input, option) =>
-            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }
+        <Form.Item
+          name="city"
+          label="选择城市"
+          rules={[
+            {
+              required: true
+            }
+          ]}
         >
-          {
-            cities.map((item, index) => {
-              return (
-                <Option
-                  key={index}
-                  value={item.value}>
-                  {item.name}
-                </Option>
-              )
-            })
-          }
-        </Select>
-      </Form.Item>
-      <Form.Item
-        name="operation"
-        label="营运模式"
-        rules={[
-          {
-            required: true
-          }
-        ]}
-      >
-        <Select placeholder="请选择营运模式">
-          <Option value={1}>自营</Option>
-          <Option value={2}>加盟</Option>
-        </Select>
-      </Form.Item>
-      <Form.Item name="mode" label="用车模式">
-        <Select placeholder="请选择用车模式">
-          <Option value={1}>指定停车点</Option>
-          <Option value={2}>禁停区</Option>
-        </Select>
-      </Form.Item>
-    </Form>
-  );
+          <Select
+            onFocus={this.getCityList}
+            showSearch
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            {
+              cities.map((item, index) => {
+                return (
+                  <Option
+                    key={index}
+                    value={item.value}>
+                    {item.name}
+                  </Option>
+                )
+              })
+            }
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name="operation"
+          label="营运模式"
+          rules={[
+            {
+              required: true
+            }
+          ]}
+        >
+          <Select placeholder="请选择营运模式">
+            <Option value={1}>自营</Option>
+            <Option value={2}>加盟</Option>
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name="mode"
+          label="用车模式"
+          rules={[
+            {
+              required: true
+            }
+          ]}>
+          <Select placeholder="请选择用车模式">
+            <Option value={1}>指定停车点</Option>
+            <Option value={2}>禁停区</Option>
+          </Select>
+        </Form.Item>
+      </Form>
+    );
+  }
 }
 
 // eslint-disable-next-line react/no-multi-comp
