@@ -1,21 +1,25 @@
 import React from 'react';
-import { Space, Card, Button, Table, Form, Select, Modal, message } from 'antd'
-import ajax from '@/api'
+import { Space, Card, Button, Table, Form, Select, Modal, message, DatePicker } from 'antd'
+import api from '@/api'
+import ajax from '@/api2'
 import tools from '@/utils/utils'
+import { isEmpty } from 'lodash'
 
 const { Option } = Select
+const { RangePicker } = DatePicker;
 
 const Order = () => {
 
   const [tableLoading, setTableLoading] = React.useState(false)
   const [dataSource, setDataSource] = React.useState([])
   const [formData, setFormData] = React.useState({})
+  const [row, setRow] = React.useState([])
 
   const orderFormRef = React.useRef(null)
 
   React.useEffect(() => {
     getOrderTable()
-  }, [])
+  }, [formData])
 
   const columns = [
     {
@@ -86,14 +90,23 @@ const Order = () => {
   ]
 
   const getFormData = (val) => {
-    console.log(val)
-    setFormData(val)
-    getOrderTable()
+    // console.log(val)
+
+    if (!isEmpty(val)) {
+      let formData = val
+      formData.startTime = formData.time[0] && formData.time[0].format('YYYY-MM-DD HH:mm:ss') || ''
+      formData.endTime = formData.time[1] && formData.time[1].format('YYYY-MM-DD HH:mm:ss') || ''
+      delete formData.time
+
+      setFormData(formData)
+    }
   }
 
   const getOrderTable = async() => {
+    console.log(formData)
     const res = await ajax({
-      url: '/getOrderList'
+      url: '/getOrderList',
+      params: formData
     })
 
     if (res.data.status) {
@@ -103,20 +116,72 @@ const Order = () => {
     }
   }
 
+  const resetForm = () => {
+    orderFormRef.current.resetFields()
+    setFormData({})
+  }
+
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      setRow(selectedRows)
+    },
+    getCheckboxProps: (record) => ({
+      // disabled: record.id !== 'r',
+      // Column configuration not to be checked
+      name: record.id
+    })
+  };
+
+  // 结束订单
+  const closeOrder = async() => {
+    if (row.length === 0) {
+      message.warn('请选择一项')
+      return
+    }
+
+    const res = await api.order.getCloseOrder({
+      id: row[0].orderId
+    })
+
+    console.log(res)
+    if (res.data.status) {
+      message.success('关闭成功')
+      getFormData({})
+    } else {
+      message.success('关闭失败')
+    }
+
+  }
+
+  // 订单详情
+  const toOrderDetail = () => {
+    if (row.length === 0) {
+      message.warn('请选择一项')
+      return
+    }
+  }
+
   return (
     <>
       <Space direction="vertical">
         <Card>
-          <FilterForm ref={orderFormRef} getFormData={getFormData} />
+          <FilterForm
+            ref={orderFormRef}
+            getFormData={getFormData}
+            resetForm={resetForm} />
         </Card>
         <Card>
           <Space>
-            <Button type="primary">订单详情</Button>
-            <Button>结束订单</Button>
+            <Button type="primary" onClick={toOrderDetail}>订单详情</Button>
+            <Button onClick={closeOrder}>结束订单</Button>
           </Space>
         </Card>
         <Card>
           <Table
+            rowSelection={{
+              type: 'radio',
+              ...rowSelection
+            }}
             bordered
             scroll={{ y: 500 }}
             loading={tableLoading}
@@ -134,8 +199,7 @@ const Order = () => {
 const FilterForm = React.forwardRef((props, ref) => {
 
   const resetForm = () => {
-    ref.current.resetFields()
-    props.getFormData()
+    props.resetForm()
   }
 
   return (
@@ -143,33 +207,28 @@ const FilterForm = React.forwardRef((props, ref) => {
       ref={ref}
       layout="inline"
       onFinish={props.getFormData}
+      initialValues={{
+        city: '',
+        time: [],
+        status: ''
+      }}
     >
       <Form.Item name="city" label="城市">
-        <Select placeholder="请选择城市" style={{ width: 140, marginBottom: 8 }}>
+        <Select placeholder="请选择城市" style={{ width: 150, marginBottom: 8 }}>
           <Option value="">全部</Option>
           <Option value="2">1号城市</Option>
           <Option value="3">2号城市</Option>
         </Select>
       </Form.Item>
-      <Form.Item name="mode" label="用车模式">
-        <Select placeholder="请选择用车模式" style={{ width: 140, marginBottom: 8 }}>
-          <Option value="">全部</Option>
-          <Option value="2">指定停车点</Option>
-          <Option value="3">禁停区模式</Option>
-        </Select>
+      <Form.Item name="time" label="时间">
+        <RangePicker showTime />
       </Form.Item>
-      <Form.Item name="operation" label="营运模式">
-        <Select placeholder="请选择营运模式" style={{ width: 140, marginBottom: 8 }}>
+      <Form.Item name="status" label="订单状态">
+        <Select placeholder="请选择订单状态" style={{ width: 150, marginBottom: 8 }}>
           <Option value="">全部</Option>
-          <Option value="1">自营</Option>
-          <Option value="2">加盟</Option>
-        </Select>
-      </Form.Item>
-      <Form.Item name="status" label="加盟商授权状态">
-        <Select placeholder="请选择加盟商授权状态" style={{ width: 140, marginBottom: 8 }}>
-          <Option value="">全部</Option>
-          <Option value="1">已授权</Option>
-          <Option value="2">未授权</Option>
+          <Option value="1">进行中</Option>
+          <Option value="2">进行中（临时锁车）</Option>
+          <Option value="3">已结束</Option>
         </Select>
       </Form.Item>
       <Form.Item>

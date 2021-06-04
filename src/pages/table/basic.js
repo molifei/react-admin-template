@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Space, Card, Table, Modal } from 'antd'
 
-import ajax from '@/api'
+import ajax from '@/api2'
 
 class Basic extends Component {
 

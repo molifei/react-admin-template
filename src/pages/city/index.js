@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Space, Card, Button, Form, Select, Table, Modal, message } from 'antd';
-import ajax from '@/api'
+import ajax from '@/api2'
 import './index.less'
 
 const { Option } = Select

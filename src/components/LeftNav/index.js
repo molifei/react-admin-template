@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.less'
 import { Menu } from 'antd';
-import { NavLink } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
 
 // 引入菜单配置
 import MenuList from '@/config/menu'
@@ -50,7 +50,7 @@ class LeftNav extends React.Component {
           <img src="/assets/logo.svg" alt="" />
           <h1>MUSCLE ADMIN</h1>
         </div>
-        <Menu theme="dark">
+        <Menu theme="dark" selectedKeys={[this.props.location.pathname]}>
           {this.state.menu}
         </Menu>
       </>
@@ -58,4 +58,4 @@ class LeftNav extends React.Component {
   }
 }
 
-export default LeftNav;
+export default withRouter(LeftNav);
