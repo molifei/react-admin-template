@@ -17,14 +17,9 @@ const host = base.prod;
 
 const order = {
 
-  // 获取订单列表
-  getOrderList(params) {
-    return ajax.get(`${host}/getOrderList`, qs.stringify(params));
-  },
-
-  // 关闭订单
-  getCloseOrder(params) {
-    return ajax.post(`${host}/order/close`, qs.stringify(params));
+  // 获取列表
+  getTableList(params) {
+    return ajax.get(`${host}/table/list`, qs.stringify(params));
   }
 
 };

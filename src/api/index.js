@@ -6,10 +6,17 @@
 
 import auth from './modules/auth';
 
+import table from './modules/table'
+
+import city from './modules/city'
 import order from './modules/order'
 
 
 export default {
   auth,
+
+  table,
+
+  city,
   order
 };

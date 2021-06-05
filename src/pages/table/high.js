@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Space, Card, Table, Modal } from 'antd'
+import React, {Component} from 'react';
+import {Space, Card, Table, Modal} from 'antd'
 
-import ajax from '@/api2'
+import api from '@/api';
 
 class High extends Component {
 
@@ -70,9 +70,7 @@ class High extends Component {
   }
 
   async componentDidMount() {
-    const res = await ajax({
-      url: '/table/list'
-    })
+    const res = await api.table.getTableList()
 
     // console.log(res)
 
@@ -124,7 +122,7 @@ class High extends Component {
   }
 
   selectRow = (record) => {
-    const { selectedRowKeys } = this.state
+    const {selectedRowKeys} = this.state
 
     // 判断有无id
     if (selectedRowKeys.indexOf(record.id) >= 0) {
@@ -134,7 +132,7 @@ class High extends Component {
       // 无则添加
       selectedRowKeys.push(record.id);
     }
-    this.setState({ selectedRowKeys });
+    this.setState({selectedRowKeys});
   }
 
   render() {
@@ -148,7 +146,7 @@ class High extends Component {
               dataSource={this.state.dataSource}
               columns={this.state.columns}
               pagination={this.pagination}
-              scroll={{ y: 500 }}
+              scroll={{y: 500}}
             />
           </Card>
           <Card title="左侧固定">
@@ -157,7 +155,7 @@ class High extends Component {
               dataSource={this.state.dataSource}
               columns={this.state.columns}
               pagination={this.pagination}
-              scroll={{ x: 1500 }}
+              scroll={{x: 1500}}
             />
           </Card>
         </Space>

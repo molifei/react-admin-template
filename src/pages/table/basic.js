@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Space, Card, Table, Modal } from 'antd'
 
-import ajax from '@/api2'
+import api from '@/api'
 
 class Basic extends Component {
 
@@ -61,9 +61,8 @@ class Basic extends Component {
   }
 
   async componentDidMount() {
-    const res = await ajax({
-      url: '/table/list'
-    })
+
+    const res = await api.table.getTableList()
 
     // console.log(res)
 

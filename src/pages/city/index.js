@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { Space, Card, Button, Form, Select, Table, Modal, message } from 'antd';
-import ajax from '@/api2'
+import React, {Component} from 'react';
+import {Space, Card, Button, Form, Select, Table, Modal, message} from 'antd';
+import api from '@/api'
 import './index.less'
 
-const { Option } = Select
+const {Option} = Select
 
 class City extends Component {
 
@@ -78,9 +78,16 @@ class City extends Component {
   }
 
   async getTableData() {
-    this.setState({ tableLoading: true })
-    const res = await ajax({ url: '/city/list' })
-    // console.log(res)
+    this.setState({tableLoading: true})
+
+    const res = await api.city.getCityList({
+      params: {
+        ...this.state.formData
+      }
+    })
+
+    console.log(res)
+
     if (res.data.status) {
       this.setState({
         dataSource: res.data.data,
@@ -91,7 +98,7 @@ class City extends Component {
 
   openCity = () => {
     console.log('开通')
-    this.setState({ cityVisible: true })
+    this.setState({cityVisible: true})
   }
 
   openCityHandle = () => {
@@ -100,17 +107,18 @@ class City extends Component {
     form.validateFields()
       .then(async(params) => {
         console.log('成功：', params)
-        const result = await ajax({
-          url: '/open/city',
-          method: 'post',
+
+        const result = await api.city.getOpenCity({
           params
         })
+
         console.log(result)
+
         if (result.status) {
           message.success('开通成功')
           this.getTable()
           form.resetFields()
-          this.setState({ cityVisible: false })
+          this.setState({cityVisible: false})
         } else {
           message.error('开通失败，请重试')
         }
@@ -121,7 +129,7 @@ class City extends Component {
   }
 
   closeOpenCity = () => {
-    this.setState({ cityVisible: false })
+    this.setState({cityVisible: false})
     this.cityInfo.current.formRef.current.resetFields()
   }
 
@@ -130,7 +138,7 @@ class City extends Component {
       <>
         <Space direction="vertical">
           <Card>
-            <AddForm ref={this.form} name="search" getTable={this.getTable} />
+            <AddForm ref={this.form} name="search" getTable={this.getTable}/>
           </Card>
           <Card>
             <Button type="primary" onClick={this.openCity}>开通</Button>
@@ -145,14 +153,14 @@ class City extends Component {
               cancelText="取消"
               destroyOnClose
             >
-              <CityForm ref={this.cityInfo} />
+              <CityForm ref={this.cityInfo}/>
             </Modal>
 
           </Card>
           <Card>
             <Table
               bordered
-              scroll={{ y: 500 }}
+              scroll={{y: 500}}
               loading={this.state.tableLoading}
               columns={this.state.columns}
               dataSource={this.state.dataSource}
@@ -192,28 +200,28 @@ class AddForm extends Component {
         }}
       >
         <Form.Item name="city" label="城市">
-          <Select placeholder="请选择城市" style={{ width: 140, marginBottom: 8 }}>
+          <Select placeholder="请选择城市" style={{width: 140, marginBottom: 8}}>
             <Option value="">全部</Option>
             <Option value="2">1号城市</Option>
             <Option value="3">2号城市</Option>
           </Select>
         </Form.Item>
         <Form.Item name="mode" label="用车模式">
-          <Select placeholder="请选择用车模式" style={{ width: 140, marginBottom: 8 }}>
+          <Select placeholder="请选择用车模式" style={{width: 140, marginBottom: 8}}>
             <Option value="">全部</Option>
             <Option value="2">指定停车点</Option>
             <Option value="3">禁停区模式</Option>
           </Select>
         </Form.Item>
         <Form.Item name="operation" label="营运模式">
-          <Select placeholder="请选择营运模式" style={{ width: 140, marginBottom: 8 }}>
+          <Select placeholder="请选择营运模式" style={{width: 140, marginBottom: 8}}>
             <Option value="">全部</Option>
             <Option value="1">自营</Option>
             <Option value="2">加盟</Option>
           </Select>
         </Form.Item>
         <Form.Item name="status" label="加盟商授权状态">
-          <Select placeholder="请选择加盟商授权状态" style={{ width: 140, marginBottom: 8 }}>
+          <Select placeholder="请选择加盟商授权状态" style={{width: 140, marginBottom: 8}}>
             <Option value="">全部</Option>
             <Option value="1">已授权</Option>
             <Option value="2">未授权</Option>
@@ -238,7 +246,7 @@ class AddForm extends Component {
 // eslint-disable-next-line react/no-multi-comp
 class CityForm extends Component {
   state = {
-    cities: [{ value: '', name: '全部' }],
+    cities: [{value: '', name: '全部'}],
     formLayout: {
       labelCol: {
         span: 4
@@ -252,13 +260,15 @@ class CityForm extends Component {
   formRef = React.createRef()
 
   getCityList = async() => {
-    const res = await ajax({ url: '/getCity' })
+
+    const res = await api.city.getAllCity()
 
     console.log(res)
+
     if (res.data.status) {
       this.setState({
         cities: [
-          { value: '', name: '全部' },
+          {value: '', name: '全部'},
           ...res.data.data
         ]
       })
@@ -267,7 +277,7 @@ class CityForm extends Component {
   }
 
   render() {
-    let { cities } = this.state
+    let {cities} = this.state
     return (
       <Form
         ref={this.formRef}

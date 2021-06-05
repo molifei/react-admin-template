@@ -1,12 +1,11 @@
 import React from 'react';
-import { Space, Card, Button, Table, Form, Select, Modal, message, DatePicker } from 'antd'
+import {Space, Card, Button, Table, Form, Select, Modal, message, DatePicker} from 'antd'
 import api from '@/api'
-import ajax from '@/api2'
 import tools from '@/utils/utils'
-import { isEmpty } from 'lodash'
+import {isEmpty} from 'lodash'
 
-const { Option } = Select
-const { RangePicker } = DatePicker;
+const {Option} = Select
+const {RangePicker} = DatePicker;
 
 const Order = () => {
 
@@ -103,10 +102,9 @@ const Order = () => {
   }
 
   const getOrderTable = async() => {
-    console.log(formData)
-    const res = await ajax({
-      url: '/getOrderList',
-      params: formData
+
+    const res = await api.order.getOrderList({
+      formData
     })
 
     if (res.data.status) {
@@ -145,10 +143,10 @@ const Order = () => {
 
     console.log(res)
     if (res.data.status) {
-      message.success('关闭成功')
+      message.success('结束订单操作成功')
       getFormData({})
     } else {
-      message.success('关闭失败')
+      message.success('结束订单操作失败')
     }
 
   }
@@ -168,7 +166,7 @@ const Order = () => {
           <FilterForm
             ref={orderFormRef}
             getFormData={getFormData}
-            resetForm={resetForm} />
+            resetForm={resetForm}/>
         </Card>
         <Card>
           <Space>
@@ -183,7 +181,7 @@ const Order = () => {
               ...rowSelection
             }}
             bordered
-            scroll={{ y: 500 }}
+            scroll={{y: 500}}
             loading={tableLoading}
             columns={columns}
             dataSource={dataSource}
@@ -214,17 +212,17 @@ const FilterForm = React.forwardRef((props, ref) => {
       }}
     >
       <Form.Item name="city" label="城市">
-        <Select placeholder="请选择城市" style={{ width: 150, marginBottom: 8 }}>
+        <Select placeholder="请选择城市" style={{width: 150, marginBottom: 8}}>
           <Option value="">全部</Option>
           <Option value="2">1号城市</Option>
           <Option value="3">2号城市</Option>
         </Select>
       </Form.Item>
       <Form.Item name="time" label="时间">
-        <RangePicker showTime />
+        <RangePicker showTime/>
       </Form.Item>
       <Form.Item name="status" label="订单状态">
-        <Select placeholder="请选择订单状态" style={{ width: 150, marginBottom: 8 }}>
+        <Select placeholder="请选择订单状态" style={{width: 150, marginBottom: 8}}>
           <Option value="">全部</Option>
           <Option value="1">进行中</Option>
           <Option value="2">进行中（临时锁车）</Option>
