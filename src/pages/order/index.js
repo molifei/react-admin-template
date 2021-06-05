@@ -13,6 +13,7 @@ const Order = () => {
   const [dataSource, setDataSource] = React.useState([])
   const [formData, setFormData] = React.useState({})
   const [row, setRow] = React.useState([])
+  const [rowKey, setRowKey] = React.useState()
 
   const orderFormRef = React.useRef(null)
 
@@ -121,14 +122,27 @@ const Order = () => {
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
+      console.log(selectedRowKeys, selectedRows)
       setRow(selectedRows)
     },
     getCheckboxProps: (record) => ({
-      // disabled: record.id !== 'r',
-      // Column configuration not to be checked
       name: record.id
     })
   };
+
+  const onRow = (record, index) => {
+    return {
+      onClick: () => {
+        console.log(record)
+        selectRow(record)
+      }
+    }
+  }
+
+  const selectRow = (record) => {
+    setRowKey([record.id])
+    setRow([record])
+  }
 
   // 结束订单
   const closeOrder = async() => {
@@ -145,6 +159,8 @@ const Order = () => {
     if (res.data.status) {
       message.success('结束订单操作成功')
       getFormData({})
+      getOrderTable()
+      setRow([])
     } else {
       message.success('结束订单操作失败')
     }
@@ -157,6 +173,10 @@ const Order = () => {
       message.warn('请选择一项')
       return
     }
+
+    window.open(`/#/link/order/detail/${row[0].id}`, '_blank')
+
+    // window.location.href = `/#/link/order/detail/${row[0].id}`
   }
 
   return (
@@ -178,8 +198,10 @@ const Order = () => {
           <Table
             rowSelection={{
               type: 'radio',
+              selectedRowKeys: rowKey,
               ...rowSelection
             }}
+            onRow={onRow}
             bordered
             scroll={{y: 500}}
             loading={tableLoading}

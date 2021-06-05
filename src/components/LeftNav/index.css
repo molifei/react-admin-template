@@ -13,4 +13,8 @@
   font-size: 18px;
   color: #aaa;
 }
+.left-nav {
+  height: 100vh;
+  overflow-y: scroll;
+}
 /*# sourceMappingURL=index.css.map */

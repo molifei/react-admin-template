@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom'
+import React, {Component} from 'react';
+import {HashRouter, Route, Switch, Redirect} from 'react-router-dom'
 import App from '../App'
 import Common from '../Common'
 
@@ -33,40 +33,42 @@ import OrderDetail from '@/pages/order/detail'
 import NotFound from '@/pages/notFound'
 
 class Router extends Component {
+
   render() {
     return (
       <>
         <HashRouter>
           <App>
             <Switch>
-              <Route path="/login" component={Login} />
-              <Route path="/" render={() =>
+              <Route path="/login" component={Login}/>
+              <Route exact path="/" render={() => <Redirect to="/admin/home"/>}/>
+              <Route path="/admin" render={() =>
                 <Admin>
                   <AnimatedRouter>
-                    <Route path="/admin/home" component={Main} />
-                    <Route path="/admin/ui/buttons" component={UiButtons} />
-                    <Route path="/admin/ui/modals" component={UiModals} />
-                    <Route path="/admin/ui/loadings" component={UiLoadings} />
-                    <Route path="/admin/ui/notification" component={UiNotification} />
-                    <Route path="/admin/ui/messages" component={UiMessages} />
-                    <Route path="/admin/ui/tabs" component={UiTabs} />
-                    <Route path="/admin/ui/gallery" component={UiGallery} />
-                    <Route path="/admin/ui/carousel" component={UiCarousel} />
-                    <Route path="/admin/form/login" component={FormLogin} />
-                    <Route path="/admin/form/register" component={FormRegister} />
-                    <Route path="/admin/table/basic" component={TableBasic} />
-                    <Route path="/admin/table/high" component={TableHigh} />
-                    <Route path="/admin/city" component={City} />
-                    <Route path="/admin/order" component={Order} />
+                    <Route path="/admin/home" component={Main}/>
+                    <Route path="/admin/ui/buttons" component={UiButtons}/>
+                    <Route path="/admin/ui/modals" component={UiModals}/>
+                    <Route path="/admin/ui/loadings" component={UiLoadings}/>
+                    <Route path="/admin/ui/notification" component={UiNotification}/>
+                    <Route path="/admin/ui/messages" component={UiMessages}/>
+                    <Route path="/admin/ui/tabs" component={UiTabs}/>
+                    <Route path="/admin/ui/gallery" component={UiGallery}/>
+                    <Route path="/admin/ui/carousel" component={UiCarousel}/>
+                    <Route path="/admin/form/login" component={FormLogin}/>
+                    <Route path="/admin/form/register" component={FormRegister}/>
+                    <Route path="/admin/table/basic" component={TableBasic}/>
+                    <Route path="/admin/table/high" component={TableHigh}/>
+                    <Route path="/admin/city" component={City}/>
+                    <Route path="/admin/order" component={Order}/>
                   </AnimatedRouter>
                 </Admin>
-              } />
-              <Route path="/" render={() =>
+              }/>
+              <Route path="/link" render={() =>
                 <Common>
-                  <Route path="/link/order/detail/:id" component={OrderDetail} />
+                  <Route path="/link/order/detail/:id" component={OrderDetail}/>
                 </Common>
-              } />
-              <Route component={NotFound} />
+              }/>
+              <Route component={NotFound}/>
             </Switch>
           </App>
         </HashRouter>

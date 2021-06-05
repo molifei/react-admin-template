@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Menu, Dropdown } from 'antd'
+import {Row, Col, Menu, Dropdown} from 'antd'
 import Utils from '@/utils/utils'
 
 import './index.less'
@@ -7,27 +7,23 @@ import './index.less'
 let timer = null
 
 export default class Header extends React.Component {
-
-  constructor() {
-    super();
-    this.state = {
-      menu: (
-        <Menu>
-          <Menu.Item>
-            <a href="#" onClick={e => e.preventDefault()}>
-              退出登录
-            </a>
-          </Menu.Item>
-        </Menu>
-      ),
-
-      systemTime: null
-    }
+  state = {
+    systemTime: null
   }
 
   UNSAFE_componentWillMount() {
     this.getWeather()
   }
+
+  menu = (
+    <Menu>
+      <Menu.Item>
+        <a href="#" onClick={e => e.preventDefault()}>
+          退出登录
+        </a>
+      </Menu.Item>
+    </Menu>
+  )
 
   UNSAFE_componentDidMount() {
     this.getTime()
@@ -53,25 +49,46 @@ export default class Header extends React.Component {
   }
 
   render() {
+
+    let {type} = this.props
+    console.log(type)
+
     return (
-      <header>
+      <header className={type === 'link' ? 'link-header' : ''}>
         <Row className="header-top">
-          <Col span={24}>
+          {
+            type === 'link' &&
+            (
+              <Col span={4}>
+                <img className="link-img" src="/assets/logo.svg" alt=""/>
+              </Col>
+
+            )
+          }
+          <Col span={type === 'link' ? 20 : 24}>
             <span>你好，欢迎</span>
-            <Dropdown overlay={this.state.menu} placement="bottomCenter">
+            <Dropdown overlay={this.menu} placement="bottomCenter">
               <a href="#">操作</a>
             </Dropdown>
           </Col>
         </Row>
-        <Row className="bread">
-          <Col span={4} className="bread-title">
-            首页
-          </Col>
-          <Col span={20} className="weather">
-            <span>{this.state.systemTime}</span>
-            <span>天气</span>
-          </Col>
-        </Row>
+        {
+          type === 'link' ?
+            '' :
+            (
+              <>
+                <Row className="bread">
+                  <Col span={4} className="bread-title">
+                    首页
+                  </Col>
+                  <Col span={20} className="weather">
+                    <span>{this.state.systemTime}</span>
+                    <span>天气</span>
+                  </Col>
+                </Row>
+              </>
+            )
+        }
       </header>
     )
   }

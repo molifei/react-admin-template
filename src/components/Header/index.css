@@ -37,4 +37,16 @@ header .bread .weather {
 header .bread .weather span:nth-of-type(1) {
   margin-right: 20px;
 }
+header.link-header {
+  background-color: #1890ff;
+}
+header.link-header .link-img {
+  width: 30px;
+}
+header.link-header span {
+  color: #fff;
+}
+header.link-header a {
+  color: #1aff00;
+}
 /*# sourceMappingURL=index.css.map */

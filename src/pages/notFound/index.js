@@ -1,7 +1,13 @@
-import React, { Component } from 'react';
-import { Result, Button } from 'antd'
+import React, {Component} from 'react';
+import {Result, Button} from 'antd'
 
 class NotFound extends Component {
+
+  toHome = () => {
+    this.props.history.push('/')
+  }
+
+
   render() {
     return (
       <>
@@ -9,7 +15,7 @@ class NotFound extends Component {
           status="404"
           title="404"
           subTitle="Sorry, the page you visited does not exist."
-          extra={<Button type="primary">Back Home</Button>}
+          extra={<Button type="primary" onClick={this.toHome}>Back Home</Button>}
         />
       </>
     );

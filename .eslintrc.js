@@ -36,7 +36,7 @@ module.exports = {
     'space-unary-ops': [1, {'words': true, 'nonwords': false}], // 一元运算符的前/后要不要加空格
     'brace-style': [2, '1tbs', {'allowSingleLine': false}], // 大括号风格
     'comma-spacing': [0, {'before': false, 'after': true}],   // 逗号后有空格，前没有空格
-    'comma-style': [2, 'last'],  // 逗号跟在结尾
+    'comma-style': [0, 'last'],  // 逗号跟在结尾
     'key-spacing': [2, {'beforeColon': false, 'afterColon': true}], // 对象字面量中冒号的前后空格
     'lines-around-comment': [ // 行前/行后备注
       2, {
