@@ -51,7 +51,6 @@ export default class Header extends React.Component {
   render() {
 
     let {type} = this.props
-    console.log(type)
 
     return (
       <header className={type === 'link' ? 'link-header' : ''}>

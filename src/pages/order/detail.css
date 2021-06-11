@@ -1,0 +1,9 @@
+.detail-wrap .item-wrap {
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+}
+.detail-wrap .item-wrap .item-title {
+  font-size: 20px;
+}
+
+/*# sourceMappingURL=detail.css.map */

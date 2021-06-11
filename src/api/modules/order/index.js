@@ -19,12 +19,17 @@ const order = {
 
   // 获取订单列表
   getOrderList(params) {
-    return ajax.get(`${host}/getOrderList`, qs.stringify(params));
+    return ajax.get(`${host}/order/list`, params);
   },
 
   // 关闭订单
   getCloseOrder(params) {
     return ajax.post(`${host}/order/close`, qs.stringify(params));
+  },
+
+  // 获取订单详情
+  getOrderDetail(params) {
+    return ajax.get(`${host}/order/detail`, params);
   }
 
 };
