@@ -1,17 +1,11 @@
 import React from 'react';
-import {Space, Card, Button, Table, Form, Select, Modal, message, DatePicker} from 'antd'
+import { Space, Card, Button, Table, Form, Select, Modal, message, DatePicker } from 'antd'
 import api from '@/api'
 import tools from '@/utils/utils'
-import {isEmpty} from 'lodash'
+import { isEmpty } from 'lodash'
 
-// 表单组件
-import BasicForm from '@/components/BasicForm'
-
-// 表格组件
-import BasicTable from '@/components/BasicTable'
-
-const {Option} = Select
-const {RangePicker} = DatePicker;
+const { Option } = Select
+const { RangePicker } = DatePicker;
 
 const Order = () => {
 
@@ -99,8 +93,8 @@ const Order = () => {
 
     if (!isEmpty(val)) {
       let formData = val
-      formData.startTime = formData.time ? formData.time[0].format('YYYY-MM-DD HH:mm:ss') : ''
-      formData.endTime = formData.time ? formData.time[1].format('YYYY-MM-DD HH:mm:ss') : ''
+      formData.startTime = formData.time[0] && formData.time[0].format('YYYY-MM-DD HH:mm:ss') || ''
+      formData.endTime = formData.time[1] && formData.time[1].format('YYYY-MM-DD HH:mm:ss') || ''
       delete formData.time
 
       setFormData(formData)
@@ -109,7 +103,7 @@ const Order = () => {
 
   const getOrderTable = async() => {
 
-    // console.log(formData)
+    console.log(formData)
 
     const res = await api.order.getOrderList({
       params: formData
@@ -186,48 +180,14 @@ const Order = () => {
     // window.location.href = `/#/link/order/detail/${row[0].id}`
   }
 
-  // 定义form结构
-  const formList = [
-    {
-      type: 'SELECT',
-      label: '城市',
-      field: 'city',
-      placeholder: '请选择城市',
-      width: 140,
-      list: [{id: 0, label: '全部', value: ''}, {id: 1, label: '北京', value: 1}, {id: 2, label: '天津', value: 2}]
-    },
-    {
-      type: 'RANGEPICKER',
-      label: '时间查询',
-      field: 'time',
-      placeholder: '',
-      width: 300
-    },
-    {
-      type: 'SELECT',
-      label: '订单状态',
-      field: 'status',
-      placeholder: '请选择订单状态',
-      initialValue: '',
-      width: 140,
-      list: [{id: 0, label: '全部', value: ''}, {id: 1, label: '进行中', value: 1}, {id: 2, label: '已结束', value: 2}]
-    }
-  ]
-
   return (
     <>
       <Space direction="vertical">
         <Card>
-          {/* <FilterForm*/}
-          {/*  ref={orderFormRef}*/}
-          {/*  getFormData={getFormData}*/}
-          {/*  resetForm={resetForm}/>*/}
-          <BasicForm
+          <FilterForm
             ref={orderFormRef}
-            formList={formList}
             getFormData={getFormData}
-            resetForm={resetForm}
-          />
+            resetForm={resetForm} />
         </Card>
         <Card>
           <Space>
@@ -236,7 +196,7 @@ const Order = () => {
           </Space>
         </Card>
         <Card>
-          <BasicTable
+          <Table
             rowSelection={{
               type: 'radio',
               selectedRowKeys: rowKey,
@@ -244,7 +204,7 @@ const Order = () => {
             }}
             onRow={onRow}
             bordered
-            scroll={{y: 500}}
+            scroll={{ y: 500 }}
             loading={tableLoading}
             columns={columns}
             dataSource={dataSource}
@@ -255,5 +215,51 @@ const Order = () => {
     </>
   );
 }
+
+// eslint-disable-next-line react/no-multi-comp
+const FilterForm = React.forwardRef((props, ref) => {
+
+  const resetForm = () => {
+    props.resetForm()
+  }
+
+  return (
+    <Form
+      ref={ref}
+      layout="inline"
+      onFinish={props.getFormData}
+      initialValues={{
+        city: '',
+        time: [],
+        status: ''
+      }}
+    >
+      <Form.Item name="city" label="城市">
+        <Select placeholder="请选择城市" style={{ width: 150, marginBottom: 8 }}>
+          <Option value="">全部</Option>
+          <Option value="2">1号城市</Option>
+          <Option value="3">2号城市</Option>
+        </Select>
+      </Form.Item>
+      <Form.Item name="time" label="时间">
+        <RangePicker showTime />
+      </Form.Item>
+      <Form.Item name="status" label="订单状态">
+        <Select placeholder="请选择订单状态" style={{ width: 150, marginBottom: 8 }}>
+          <Option value="">全部</Option>
+          <Option value="1">进行中</Option>
+          <Option value="2">进行中（临时锁车）</Option>
+          <Option value="3">已结束</Option>
+        </Select>
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" htmlType="submit">SEARCH</Button>
+      </Form.Item>
+      <Form.Item>
+        <Button onClick={resetForm}>RESET</Button>
+      </Form.Item>
+    </Form>
+  )
+})
 
 export default Order;

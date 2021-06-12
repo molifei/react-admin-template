@@ -15,6 +15,6 @@
 }
 .left-nav {
   height: 100vh;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 /*# sourceMappingURL=index.css.map */
